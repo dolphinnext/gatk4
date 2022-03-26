@@ -27,36 +27,6 @@ RUN yum -y install \
 
 ENV APPS_ROOT /apps
 RUN mkdir -p ${APPS_ROOT}
-[svcgalaxy@umwlresdol01 variant-calling-pipeline-gatk4]$ cat Dockerfile 
-FROM centos:centos7
-
-RUN yum update -y
-
-RUN yum install -y epel-release
-
-RUN yum -y install \
-	git \
-	wget \
-	java-1.8.0-openjdk \
-	java-1.8.0-openjdk-devel \
-	R \
-	autoconf \
-	automake \
-	make \
-	gcc \
-	perl-Data-Dumper \
-	zlib-devel \
-	bzip2 \
-	bzip2-devel \
-	xz-devel \
-	curl-devel \
-	openssl-devel \
-	ncurses-devel \
-	graphviz
-
-
-ENV APPS_ROOT /apps
-RUN mkdir -p ${APPS_ROOT}
 
 ###############################################
 #BWA = 'bwa/intel/0.7.17'
