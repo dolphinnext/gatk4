@@ -1,15 +1,14 @@
-FROM centos:centos7
+FROM registry.access.redhat.com/ubi8/ubi:8.1
 
 RUN yum update -y
 
-RUN yum install -y epel-release
+RUN dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 
 RUN yum -y install \
 	git \
 	wget \
 	java-1.8.0-openjdk \
 	java-1.8.0-openjdk-devel \
-	R \
 	autoconf \
 	automake \
 	make \
@@ -24,6 +23,7 @@ RUN yum -y install \
 	ncurses-devel \
 	graphviz
 
+RUN dnf install -y unzip zip
 
 ENV APPS_ROOT /apps
 RUN mkdir -p ${APPS_ROOT}
@@ -134,8 +134,24 @@ RUN wget -O snpEff_v${SNPEFF_VERSION}_core.zip  https://sourceforge.net/projects
         && mv snpEff ${APPS_ROOT}/snpeff/${SNPEFF_VERSION}
 
 ###############################################
+RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
+    /bin/bash ~/miniconda.sh -b -p /opt/conda && \
+    rm ~/miniconda.sh && \
+    /opt/conda/bin/conda clean -tipsy && \
+    ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
+    echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
+    echo "conda activate base" >> ~/.bashrc
+
+COPY environment.yml /
+RUN source ~/.bashrc && conda env create -f /environment.yml && conda clean -a
+
+RUN mkdir -p /project /nl /mnt /share
+ENV PATH /opt/conda/envs/dolphinnext/bin:$PATH
+
 # R Packages Installation
 RUN R -e "install.packages('ggplot2', repos = 'http://cran.us.r-project.org')"
 RUN R -e "install.packages('gsalib', repos = 'http://cran.us.r-project.org')"
 RUN R -e "install.packages('reshape', repos = 'http://cran.us.r-project.org')"
 RUN R -e "install.packages('gplots', repos = 'http://cran.us.r-project.org')"
+
+ADD snpEff.config ${APPS_ROOT}/snpeff/${SNPEFF_VERSION}
