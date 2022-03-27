@@ -153,5 +153,3 @@ RUN R -e "install.packages('ggplot2', repos = 'http://cran.us.r-project.org')"
 RUN R -e "install.packages('gsalib', repos = 'http://cran.us.r-project.org')"
 RUN R -e "install.packages('reshape', repos = 'http://cran.us.r-project.org')"
 RUN R -e "install.packages('gplots', repos = 'http://cran.us.r-project.org')"
-
-ADD snpEff.config ${APPS_ROOT}/snpeff/${SNPEFF_VERSION}
