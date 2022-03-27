@@ -1,29 +1,30 @@
-FROM registry.access.redhat.com/ubi8/ubi:8.1
+FROM ubuntu:xenial
 
-RUN yum update -y
+RUN apt -y update
 
-RUN dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
-
-RUN yum -y install \
+RUN apt -y install \
 	git \
 	wget \
-	java-1.8.0-openjdk \
-	java-1.8.0-openjdk-devel \
+    default-jdk \
+    default-jre \
 	autoconf \
 	automake \
 	make \
 	gcc \
-	perl-Data-Dumper \
-	zlib-devel \
+	perl \
+	zlib1g-dev \
 	bzip2 \
-	bzip2-devel \
-	xz-devel \
-	curl-devel \
-	openssl-devel \
-	ncurses-devel \
-	graphviz
+	libbz2-dev \
+	xz-utils \
+    liblzma-dev \
+	curl \
+    libcurl4-openssl-dev \
+	libssl-dev \
+	ncurses-dev \
+	graphviz \
+    unzip \
+    zip
 
-RUN dnf install -y unzip zip
 
 ENV APPS_ROOT /apps
 RUN mkdir -p ${APPS_ROOT}
@@ -143,7 +144,7 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
     echo "conda activate base" >> ~/.bashrc
 
 COPY environment.yml /
-RUN source ~/.bashrc && conda env create -f /environment.yml && conda clean -a
+RUN . /opt/conda/etc/profile.d/conda.sh && conda activate base && conda env create -f /environment.yml && conda clean -a
 
 RUN mkdir -p /project /nl /mnt /share
 ENV PATH /opt/conda/envs/dolphinnext/bin:$PATH
@@ -153,3 +154,4 @@ RUN R -e "install.packages('ggplot2', repos = 'http://cran.us.r-project.org')"
 RUN R -e "install.packages('gsalib', repos = 'http://cran.us.r-project.org')"
 RUN R -e "install.packages('reshape', repos = 'http://cran.us.r-project.org')"
 RUN R -e "install.packages('gplots', repos = 'http://cran.us.r-project.org')"
+
