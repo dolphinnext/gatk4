@@ -53,9 +53,9 @@ RUN mkdir -p ${PICARD_HOME}
 RUN wget https://github.com/broadinstitute/picard/releases/download/${PICARD_VERSION}/picard.jar -O ${PICARD_JAR}
 
 ###############################################
-#GATK = 'gatk/4.1.3.0'
+#GATK = 'gatk/4.2.5.0'
 
-ENV GATK_VERSION 4.1.3.0
+ENV GATK_VERSION 4.2.5.0
 
 ENV GATK_HOME ${APPS_ROOT}/gatk/${GATK_VERSION}
 
