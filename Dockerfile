@@ -150,8 +150,6 @@ RUN mkdir -p /project /nl /mnt /share
 ENV PATH /opt/conda/envs/dolphinnext/bin:$PATH
 
 # R Packages Installation
-RUN R -e "install.packages('ggplot2', repos = 'http://cran.us.r-project.org')"
-RUN R -e "install.packages('gsalib', repos = 'http://cran.us.r-project.org')"
-RUN R -e "install.packages('reshape', repos = 'http://cran.us.r-project.org')"
-RUN R -e "install.packages('gplots', repos = 'http://cran.us.r-project.org')"
+COPY install_packages.R /
+RUN Rscript /install_packages.R
 
