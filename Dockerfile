@@ -120,17 +120,18 @@ RUN wget https://github.com/samtools/samtools/releases/download/${SAMTOOLS_VERSI
 	&& make install
 
 ###############################################
-#SNPEFF = 'snpeff/4.3'
+#SNPEFF = 'snpeff/latest'
 
-ENV SNPEFF_VERSION 4_3i
+ENV SNPEFF_VERSION latest
 ENV SNPEFF_HOME ${APPS_ROOT}/snpeff/${SNPEFF_VERSION}
 
 ENV SNPEFF_JAR ${SNPEFF_HOME}/snpEff.jar
 ENV SNPSIFT_JAR ${SNPEFF_HOME}/SnpSift.jar
 
-RUN wget -O snpEff_v${SNPEFF_VERSION}_core.zip  https://sourceforge.net/projects/snpeff/files/snpEff_v${SNPEFF_VERSION}_core.zip/download# \
+#RUN wget -O snpEff_v${SNPEFF_VERSION}_core.zip  https://sourceforge.net/projects/snpeff/files/snpEff_v${SNPEFF_VERSION}_core.zip/download# \
+RUN wget https://snpeff.blob.core.windows.net/versions/snpEff_latest_core.zip \
         && mkdir ${APPS_ROOT}/snpeff \
-        && unzip snpEff_v${SNPEFF_VERSION}_core.zip \
+        && unzip snpEff_${SNPEFF_VERSION}_core.zip \
         && mv snpEff ${APPS_ROOT}/snpeff/${SNPEFF_VERSION}
 
 ###############################################
