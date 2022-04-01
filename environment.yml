@@ -8,3 +8,4 @@ channels:
 dependencies:
   - R
   - python
+  - vcf2maf
