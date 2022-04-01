@@ -15,3 +15,4 @@ dependencies:
   - samtools=1.9
   - gatk4=4.2.5.0
   - snpeff=5.1
+  - htslib
