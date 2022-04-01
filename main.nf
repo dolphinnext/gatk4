@@ -353,7 +353,7 @@ script:
 # R64-1-1.86 Saccharomyces_cerevisiae
 # GRCh38.p7.RefSeq Homo_sapiens
 # GRCm38.75 Mus_musculus
-java -jar \$SNPEFF_JAR -v \
+snpEff -v \
 	-dataDir /tmp/data \
 	${snpeff_db} \
 	$filtered_snps > ${name}_filtered_snps.ann.vcf 2>out.log
@@ -380,13 +380,12 @@ output:
 
 script:
 """
-#export LD_LIBRARY_PATH=/apps/htslib/1.9/lib/
-    java -jar \$PICARD_JAR \
+    picard \
        CollectAlignmentSummaryMetrics \
 	   R=${ref} \
        I=${sorted_dedup_reads} \
 	   O=${name}_alignment_metrics.txt
-    java -jar \$PICARD_JAR \
+    picard \
         CollectInsertSizeMetrics \
         INPUT=${sorted_dedup_reads} \
 	    OUTPUT=${name}_insert_metrics.txt \
