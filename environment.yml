@@ -7,7 +7,11 @@ channels:
   - defaults
 dependencies:
   - R
+  - bwa=0.7.17
   - python
-  - vcf2maf
-  - bcftools
   - vcftools
+  - bcftools
+  - picard
+  - samtools=1.9
+  - gatk4=4.2.5.0
+  - snpeff=5.1
