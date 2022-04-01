@@ -9,3 +9,5 @@ dependencies:
   - R
   - python
   - vcf2maf
+  - bcftools
+  - vcftools
