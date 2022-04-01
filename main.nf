@@ -358,6 +358,7 @@ java -jar \$SNPEFF_JAR -v \
 	${snpeff_db} \
 	$filtered_snps > ${name}_filtered_snps.ann.vcf 2>out.log
 	mv snpEff_summary.html ${name}_snpEff_summary.html
+	sed -i -e '1d' snpEff_genes.txt 
 	mv snpEff_genes.txt ${name}_snpEff_genes.txt
 """
 
