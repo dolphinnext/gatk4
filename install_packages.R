@@ -10,7 +10,7 @@ packages <- c('ggplot2', 'plyr', 'dplyr', 'data.table', 'reshape', 'RColorBrewer
               'rmarkdown', 'reshape', 'gplots')
 inst_pack(packages)
 
-BiocManager::install(c("debrowser", "GenVisR", "VariantAnnotation", 
+BiocManager::install(c("GenVisR", "VariantAnnotation", 
                 "org.Sc.sgd.db", "org.Hs.eg.db", "org.Mm.eg.db",
                 "TxDb.Scerevisiae.UCSC.sacCer3.sgdGene", "TxDb.Hsapiens.UCSC.hg38.refGene", "TxDb.Mmusculus.UCSC.mm10.knownGene",
                 "BSgenome.Scerevisiae.UCSC.sacCer3", "BSgenome.Hsapiens.UCSC.hg38", "BSgenome.Mmusculus.UCSC.mm10"

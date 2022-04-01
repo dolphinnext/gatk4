@@ -25,7 +25,6 @@ RUN apt -y install \
     unzip \
     zip
 
-
 ENV APPS_ROOT /apps
 RUN mkdir -p ${APPS_ROOT}
 
