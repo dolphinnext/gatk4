@@ -5,6 +5,8 @@ RUN apt -y update
 RUN apt -y install \
 	git \
 	wget \
+    default-jdk \
+    default-jre \
 	autoconf \
 	automake \
 	make \
@@ -36,6 +38,7 @@ RUN . /opt/conda/etc/profile.d/conda.sh && \
     conda activate base && \
     conda install -c conda-forge mamba && \
     mamba env create -f /environment.yml && \
+    mamba install -c bioconda snpeff && \
     mamba clean -a
 
 RUN mkdir -p /project /nl /mnt /share
