@@ -38,7 +38,7 @@ RUN . /opt/conda/etc/profile.d/conda.sh && \
     conda activate base && \
     conda install -c conda-forge mamba && \
     mamba env create -f /environment.yml && \
-    mamba install -c bioconda snpeff && \
+    conda install -c bioconda snpeff && \
     mamba clean -a
 
 RUN mkdir -p /project /nl /mnt /share
