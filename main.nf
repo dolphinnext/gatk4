@@ -337,7 +337,7 @@ gatk VariantFiltration \
 process SnpEff {
 
 publishDir params.outdir, mode: 'copy', saveAs: {filename -> if (filename =~ /${name}_filtered_snps.ann.vcf$/) "snp_vcfout/$filename"}
-publishDir params.outdir, mode: 'copy', saveAs: {filename -> if (filename =~ /${name}_snpEff_summary.html$/) "SnpEffPdf/$filename"}
+publishDir params.outdir, mode: 'copy', saveAs: {filename -> if (filename =~ /${name}_snpEff_summary.html$/) "SnpEff_report/$filename"}
 publishDir params.outdir, mode: 'copy', saveAs: {filename -> if (filename =~ /${name}_snpEff_genes.txt$/) "SnpEff/$filename"}
 input:
  set val(name), file(filtered_snps), file(filtered_index)  from g_24_VCFset0_g_26
