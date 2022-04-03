@@ -5,8 +5,6 @@ RUN apt -y update
 RUN apt -y install \
 	git \
 	wget \
-    default-jdk \
-    default-jre \
 	autoconf \
 	automake \
 	make \

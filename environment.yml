@@ -7,6 +7,7 @@ channels:
   - defaults
 dependencies:
   - R
+  - java-jdk
   - bwa=0.7.17
   - python
   - vcftools
@@ -15,3 +16,4 @@ dependencies:
   - samtools=1.9
   - gatk4=4.2.5.0
   - vcf2maf
+  - snpeff
