@@ -44,6 +44,6 @@ RUN mkdir -p /project /nl /mnt /share
 ENV PATH /opt/conda/envs/dolphinnext/bin:$PATH
 
 # R Packages Installation
-#COPY install_packages.R /
-#RUN Rscript /install_packages.R
+COPY install_packages.R /
+RUN Rscript /install_packages.R
 
