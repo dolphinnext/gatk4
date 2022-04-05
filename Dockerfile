@@ -36,7 +36,7 @@ RUN . /opt/conda/etc/profile.d/conda.sh && \
     conda activate base && \
     conda update conda && \
     conda install -c conda-forge mamba && \
-    mamba env update --file /environment.yml --prune && \
+    mamba env create -f /environment.yml && \
     mamba install -c bioconda snpeff && \
     mamba clean -a
 
