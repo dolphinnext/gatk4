@@ -34,13 +34,21 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
 COPY environment.yml /
 RUN . /opt/conda/etc/profile.d/conda.sh && \ 
     conda activate base && \
+    conda update conda && \
     conda install -c conda-forge mamba && \
-    mamba env create -f /environment.yml && \
-    mamba install -c bioconda snpeff && \
+    mamba env update --file /environment.yml --prune && \
     mamba clean -a
 
 RUN mkdir -p /project /nl /mnt /share
-ENV PATH /opt/conda/envs/dolphinnext/bin:$PATH
+ENV PATH /opt/conda/bin:/opt/conda/condabin:$PATH
+ENV CONDA_EXE /opt/conda/bin/conda
+ENV JAVA_HOME /opt/conda
+ENV CONDA_PREFIX /opt/conda
+ENV JAVA_LD_LIBRARY_PATH /opt/conda/lib/server
+ENV CONDA_SHLVL 1
+ENV CONDA_PROMPT_MODIFIER (base)
+ENV CONDA_PYTHON_EXE /opt/conda/bin/python
+ENV CONDA_DEFAULT_ENV base
 
 # R Packages Installation
 COPY install_packages.R /

@@ -213,6 +213,8 @@ output:
 
 script:
 """
+	. /opt/conda/etc/profile.d/conda.sh 
+	conda activate base
 	gatk ApplyBQSR \
         -R $ref \
         -I $input_bam \
@@ -353,6 +355,8 @@ script:
 # R64-1-1.86 Saccharomyces_cerevisiae
 # GRCh38.p7.RefSeq Homo_sapiens
 # GRCm38.75 Mus_musculus
+. /opt/conda/etc/profile.d/conda.sh 
+conda activate base
 snpEff -v \
 	-dataDir /tmp/data \
 	${snpeff_db} \
@@ -377,6 +381,12 @@ output:
  file "${name}_insert_metrics.txt"  into g_4_txtFile11
  file "${name}_insert_size_histogram.pdf"  into g_4_outputFilePdf22
  file "${name}_depth_out.txt"  into g_4_txtFile33
+
+errorStrategy 'retry'
+maxRetries 1
+
+when:
+(params.run_Metrics && (params.run_Metrics == "yes")) || !params.run_Metrics
 
 script:
 """
