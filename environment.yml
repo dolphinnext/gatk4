@@ -7,14 +7,14 @@ channels:
   - defaults
   - anaconda
 dependencies:
-  - R
+  - R=4.1
   - openjdk=11.0.13
   - bwa=0.7.17
   - python=3.9.7
   - vcftools
-  - bcftools
-  - picard
-  - samtools=1.9
+  - bcftools=1.8
+  - picard=2.26.11
+  - samtools=1.7
   - gatk4=4.2.5.0
-  - vcf2maf
+  - vcf2maf=1.6.21
   - snpeff=5.1
