@@ -66,8 +66,7 @@ output:
 
 script:
 """
-. /opt/conda/etc/profile.d/conda.sh
-conda activate base
+export JAVA_HOME=""
 mkdir -p tmp/${name}
 gatk --java-options '-Djava.io.tmpdir=tmp/${name}' \
  MarkDuplicatesSpark \
@@ -91,6 +90,7 @@ output:
 
 script:
 """
+ export JAVA_HOME=""
  gatk HaplotypeCaller \
 	-R $ref \
 	-I $input_bam \
@@ -204,8 +204,7 @@ output:
 
 script:
 """
-    . /opt/conda/etc/profile.d/conda.sh
-    conda activate base
+    export JAVA_HOME=""
 	gatk ApplyBQSR \
         -R $ref \
         -I $input_bam \
@@ -289,6 +288,7 @@ output:
 
 script:
 """
+ export JAVA_HOME=""
  gatk HaplotypeCaller \
 	-R $ref \
 	-I $input_bam \
