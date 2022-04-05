@@ -49,7 +49,7 @@ ENV CONDA_SHLVL 1
 ENV CONDA_PROMPT_MODIFIER (base)
 ENV CONDA_PYTHON_EXE /opt/conda/bin/python
 ENV CONDA_DEFAULT_ENV base
-
+ENV CONDA_BACKUP_JAVA_HOME :-
 # R Packages Installation
 COPY install_packages.R /
 RUN Rscript /install_packages.R
