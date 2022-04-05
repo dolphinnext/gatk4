@@ -10,11 +10,11 @@ dependencies:
   - R
   - openjdk=11.0.13
   - bwa=0.7.17
-  - python
+  - python=3.9.7
   - vcftools
   - bcftools
   - picard
   - samtools=1.9
   - gatk4=4.2.5.0
   - vcf2maf
-  - snpeff
+  - snpeff=5.1
