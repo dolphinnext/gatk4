@@ -37,21 +37,11 @@ RUN . /opt/conda/etc/profile.d/conda.sh && \
     conda update conda && \
     conda install -c conda-forge mamba && \
     mamba env update --file /environment.yml --prune && \
+    mamba install -c bioconda snpeff && \
     mamba clean -a
 
-ENV PATH /opt/conda/bin:/opt/conda/condabin:$PATH
-ENV CONDA_EXE /opt/conda/bin/conda
-ENV JAVA_HOME /opt/conda
-ENV CONDA_PREFIX /opt/conda
-ENV JAVA_LD_LIBRARY_PATH /opt/conda/lib/server
-ENV CONDA_SHLVL 1
-ENV CONDA_PROMPT_MODIFIER (base)
-ENV CONDA_PYTHON_EXE /opt/conda/bin/python
-ENV CONDA_DEFAULT_ENV base
-ENV CONDA_BACKUP_JAVA_HOME :-
-
 RUN mkdir -p /project /nl /mnt /share
-#ENV PATH /opt/conda/envs/dolphinnext/bin:$PATH
+ENV PATH /opt/conda/envs/dolphinnext/bin:$PATH
 
 # R Packages Installation
 #COPY install_packages.R /

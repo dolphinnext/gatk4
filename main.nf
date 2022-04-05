@@ -66,7 +66,6 @@ output:
 
 script:
 """
-export JAVA_HOME=""
 mkdir -p tmp/${name}
 gatk --java-options '-Djava.io.tmpdir=tmp/${name}' \
  MarkDuplicatesSpark \
