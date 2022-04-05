@@ -1,6 +1,6 @@
 # You can use this file to create a conda environment for this pipeline:
 #   conda env create -f environment.yml
-name: dolphinnext
+name: base
 channels:
   - conda-forge
   - bioconda
@@ -8,10 +8,8 @@ channels:
   - anaconda
 dependencies:
   - R=4.1
-  - openjdk=11.0.13
   - bwa=0.7.17
-  - python=3.9.7
-  - vcftools
+  - vcftools=0.1.16
   - bcftools=1.8
   - picard=2.26.11
   - samtools=1.7
