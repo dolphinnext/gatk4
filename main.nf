@@ -19,7 +19,7 @@ Channel
  }
 
 Channel.value(params.mate).set{g_2_mate_g_0}
-Channel.value(params.bwaref).into{g_5_ref_flat_g_0;g_5_ref_flat_g_4;g_5_ref_flat_g_6;g_5_ref_flat_g_20;g_5_ref_flat_g_8;g_5_ref_flat_g_22;g_5_ref_flat_g_9;g_5_ref_flat_g_24;g_5_ref_flat_g_14;g_5_ref_flat_g_16}
+Channel.value(params.bwaref).into{g_5_ref_flat_g_0;g_5_ref_flat_g_4;g_5_ref_flat_g_8;g_5_ref_flat_g_22;g_5_ref_flat_g_9;g_5_ref_flat_g_24;g_5_ref_flat_g_14;g_5_ref_flat_g_16;g_5_ref_flat_g_6;g_5_ref_flat_g_20}
 Channel.value(params.firstRound).set{g_7_roundBatchAlgorithm_g_6}
 Channel.value(params.secondRound).set{g_21_roundBatchAlgorithm_g_20}
 Channel.value(params.snpeff_db).set{g_28_ref_flat_g_26}
@@ -89,11 +89,46 @@ output:
 
 script:
 """
- export JAVA_HOME=""
  gatk HaplotypeCaller \
 	-R $ref \
 	-I $input_bam \
 	-O ${name}_raw_variants_${round}.vcf
+"""
+}
+
+
+process getMetrics {
+
+publishDir params.outdir, mode: 'copy', saveAs: {filename -> if (filename =~ /${name}_insert_size_histogram.pdf$/) "report/$filename"}
+input:
+ set val(name),file(sorted_dedup_reads) from g_35_mapped_reads0_g_4
+ val ref from g_5_ref_flat_g_4
+
+output:
+ file "${name}_alignment_metrics.txt"  into g_4_txtFile00
+ file "${name}_insert_metrics.txt"  into g_4_txtFile11
+ file "${name}_insert_size_histogram.pdf"  into g_4_outputFilePdf22
+ file "${name}_depth_out.txt"  into g_4_txtFile33
+
+errorStrategy 'retry'
+maxRetries 1
+
+when:
+(params.run_Metrics && (params.run_Metrics == "yes")) || !params.run_Metrics
+
+script:
+"""
+    picard \
+       CollectAlignmentSummaryMetrics \
+	   R=${ref} \
+       I=${sorted_dedup_reads} \
+	   O=${name}_alignment_metrics.txt
+    picard \
+        CollectInsertSizeMetrics \
+        INPUT=${sorted_dedup_reads} \
+	    OUTPUT=${name}_insert_metrics.txt \
+        HISTOGRAM_FILE=${name}_insert_size_histogram.pdf 
+    samtools depth -a ${sorted_dedup_reads} > ${name}_depth_out.txt
 """
 }
 
@@ -203,7 +238,6 @@ output:
 
 script:
 """
-    export JAVA_HOME=""
 	gatk ApplyBQSR \
         -R $ref \
         -I $input_bam \
@@ -215,62 +249,6 @@ script:
 	    --known-sites ${name}_bqsr_snps.vcf\
 		--known-sites ${name}_bqsr_indels.vcf \
 		-O ${name}_post_recal_data.table
-"""
-}
-
-
-process AnalyzeCovariates {
-
-publishDir params.outdir, mode: 'copy', saveAs: {filename -> if (filename =~ /${name}_recalibration_plots.pdf$/) "AnalyzeCovarage/$filename"}
-input:
- set val(name),file(recal_table), file(post_recal_table) from g_16_outputFileTab0_g_17
-
-output:
- file "${name}_recalibration_plots.pdf"  into g_17_outputFilePdf00
-
-script:
-
-"""
-gatk AnalyzeCovariates \
-	-before $recal_table \
-	-after $post_recal_table \
-	-plots ${name}_recalibration_plots.pdf
-"""
-}
-
-
-process getMetrics {
-
-publishDir params.outdir, mode: 'copy', saveAs: {filename -> if (filename =~ /${name}_insert_size_histogram.pdf$/) "report/$filename"}
-input:
- set val(name),file(sorted_dedup_reads) from g_35_mapped_reads0_g_4
- val ref from g_5_ref_flat_g_4
-
-output:
- file "${name}_alignment_metrics.txt"  into g_4_txtFile00
- file "${name}_insert_metrics.txt"  into g_4_txtFile11
- file "${name}_insert_size_histogram.pdf"  into g_4_outputFilePdf22
- file "${name}_depth_out.txt"  into g_4_txtFile33
-
-errorStrategy 'retry'
-maxRetries 1
-
-when:
-(params.run_Metrics && (params.run_Metrics == "yes")) || !params.run_Metrics
-
-script:
-"""
-    picard \
-       CollectAlignmentSummaryMetrics \
-	   R=${ref} \
-       I=${sorted_dedup_reads} \
-	   O=${name}_alignment_metrics.txt
-    picard \
-        CollectInsertSizeMetrics \
-        INPUT=${sorted_dedup_reads} \
-	    OUTPUT=${name}_insert_metrics.txt \
-        HISTOGRAM_FILE=${name}_insert_size_histogram.pdf 
-    samtools depth -a ${sorted_dedup_reads} > ${name}_depth_out.txt
 """
 }
 
@@ -287,7 +265,6 @@ output:
 
 script:
 """
- export JAVA_HOME=""
  gatk HaplotypeCaller \
 	-R $ref \
 	-I $input_bam \
@@ -388,6 +365,26 @@ snpEff -v \
 	mv snpEff_genes.txt ${name}_snpEff_genes.txt
 """
 
+}
+
+
+process AnalyzeCovariates {
+
+publishDir params.outdir, mode: 'copy', saveAs: {filename -> if (filename =~ /${name}_recalibration_plots.pdf$/) "AnalyzeCovarage/$filename"}
+input:
+ set val(name),file(recal_table), file(post_recal_table) from g_16_outputFileTab0_g_17
+
+output:
+ file "${name}_recalibration_plots.pdf"  into g_17_outputFilePdf00
+
+script:
+
+"""
+gatk AnalyzeCovariates \
+	-before $recal_table \
+	-after $post_recal_table \
+	-plots ${name}_recalibration_plots.pdf
+"""
 }
 
 
